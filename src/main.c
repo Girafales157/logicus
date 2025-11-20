@@ -9,48 +9,54 @@
 #include "raylib.h"
 #include "raygui.h"
 
-// importacao de arquivos header de prototipacao
+// importacao de arquivos header de prototipacao e carregamento
 
 #include "save.h"
 #include "dialogo.h"
+#include "recursos.h"
 
 // declaracao de constantes globais
+// ...
 
-typedef enum {
-    TELA_INICIAL = 0,
-    TELA_MENU,
-    TELA_JOGO
-} EstadoTela;
+// define tamanho da janela
+
+#define LARGURA 800
+#define ALTURA 480
 
 // declaracao de variaveis globais
-
-// prototipação de funções
-
-void mudarTela (EstadoTela *telaAtual);
-EstadoTela telaInicial(EstadoTela **tela);
-EstadoTela telaMenu(EstadoTela **tela);
-EstadoTela telaJogo(EstadoTela **tela);
+// ...
 
 int main(void) {
+    // aloca estaticamente memoria para recursos de imagem
+    Imagens imagens = {0};
 
-    //Variavel de controle
-    EstadoTela tela = TELA_INICIAL;
-
-    InitWindow(800, 460, "Logicus;");
+    // inicializa janela da biblioteca RayGUI
+    InitWindow(LARGURA, ALTURA, "Logicus;");
     SetTargetFPS(60);
 
+    // carrega recursos de imagem do jogo
+    carregarRecursos(&imagens);
+
+    // inicia game loop para desenhar na janela
     while (!WindowShouldClose()) {
 
         BeginDrawing();
-            
+            // limpa cor de fundo para proxima iteracao
             ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
-            // através desta função acontecem todas as transições
-            mudarTela(&tela);
 
+            // desenha splash arte do menu
+            DrawTexture(imagens.interface[SPLASH_ARTE], 0, 0, WHITE);
+            
+            // desenha titulo
+            DrawTexture(imagens.interface[TITULO_ARTE], (LARGURA / 2) - 180, ALTURA / 28, WHITE);
         EndDrawing();
 
     }
+    
+    // descarrega recursos de imagem alocadas pelo rayGUI
+    descarregarRecursos(&imagens);
 
+    // finaliza janela
     CloseWindow();
     return 0;
 }

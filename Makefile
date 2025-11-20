@@ -9,7 +9,7 @@ RL_LDD = $(PWD)/bibliotecas/raylib-5.5_linux_amd64/lib
 RL_INC = ./bibliotecas/raylib-5.5_linux_amd64/include
 RG_INC = ./bibliotecas/raygui-4.0/src
 
-OBJS = save.o dialogo.o main.o
+OBJS = recursos.o save.o dialogo.o main.o
 
 all: ./build/logicus
 
@@ -24,6 +24,9 @@ save.o: ./src/save.c
 
 dialogo.o: ./src/dialogo.c
 	$(CC) $(CFLAGS) -c ./src/dialogo.c
+
+recursos.o: ./src/recursos.c
+	$(CC) $(CFLAGS) -c ./src/recursos.c -I$(INCLUDE) -I$(RL_INC) -I$(RL_INC)
 
 clean:
 	@rm *.o ./build/logicus
